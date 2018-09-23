@@ -5,14 +5,34 @@ from IPython import embed
 from requests.auth import HTTPBasicAuth
 import sys
 import getpass
+import os
+from os import environ
+#print os.environ[""]
 
-username=raw_input('Enter your username\n')
-password=getpass.getpass()
-print "ex:" , "summary~\"Al-Radaideh\""
-jql=raw_input('Enter your jql query\n')
+username=""
+password=""
+jira_host="https://jira.atypon.com/"
+if environ.get('JIRA_UN') is not None:
+    username=environ["JIRA_UN"]
+if username is "":
+    username=raw_input('Enter your username\n')
+#else:
+#    print "using the global username"
+if environ.get('JIRA_PW') is not None:
+    password=environ["JIRA_PW"]
+if password is "":
+    password=getpass.getpass()
+else:
+    print "using the global username and password ..."
+print "using the Jira host : ",jira_host
+print ""
+jql=raw_input('Enter your jql query [summary~\"Al-Radaideh\"]\n')
+if jql is "":
+    jql="summary~\"Al-Radaideh\"";
 
-res = requests.get("".join(['https://jira.atypon.com/rest/api/2/search?jql=',jql]), auth=HTTPBasicAuth(username,password))
-print(res)
+print "wait until finish pulling the data .."
+res = requests.get("".join([jira_host,'rest/api/2/search?jql=',jql]), auth=HTTPBasicAuth(username,password))
+#print(res)
 jsn = json.loads(res.text)
 
 def help():
@@ -39,7 +59,7 @@ def show(var):
 	print(json.dumps(x, indent=2))
 def print_issues():
 	global SELECTED
-	print(SELECTED)
+	#print(SELECTED)
 	global jsn
 	print("Num	Summary")
 	for x in range(0, jsn["total"]):
@@ -75,6 +95,8 @@ def print_issue():
         print "Status      :","\t\t",	jsn["issues"][id]["fields"]["status"]["name"]
         print "Description :","\t\t\n",	jsn["issues"][id]["fields"]["description"]
 init()
+os.system('clear')
 print_issues()
+print ""
 embed()
 
