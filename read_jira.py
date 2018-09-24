@@ -12,28 +12,9 @@ from os import environ
 username=""
 password=""
 jira_host="https://jira.atypon.com/"
-if environ.get('JIRA_UN') is not None:
-    username=environ["JIRA_UN"]
-if username is "":
-    username=raw_input('Enter your username\n')
-#else:
-#    print "using the global username"
-if environ.get('JIRA_PW') is not None:
-    password=environ["JIRA_PW"]
-if password is "":
-    password=getpass.getpass()
-else:
-    print "using the global username and password ..."
-print "using the Jira host : ",jira_host
-print ""
-jql=raw_input('Enter your jql query [summary~\"Al-Radaideh\"]\n')
-if jql is "":
-    jql="summary~\"Al-Radaideh\"";
-
-print "wait until finish pulling the data .."
-res = requests.get("".join([jira_host,'rest/api/2/search?jql=',jql]), auth=HTTPBasicAuth(username,password))
-#print(res)
-jsn = json.loads(res.text)
+jql=""
+res=""
+jsn=""
 
 def help():
 	print '''
@@ -46,7 +27,30 @@ search(data, target)	search("Hamdan", "summary")
 '''
 def init():
 	global SELECTED
+        global username, password, jira_host, jql, res, jsn
 	SELECTED=-1
+        if environ.get('JIRA_UN') is not None:
+            username=environ["JIRA_UN"]
+        if username is "":
+            username=raw_input('Enter your username\n')
+        #else:
+        #    print "using the global username"
+        if environ.get('JIRA_PW') is not None:
+            password=environ["JIRA_PW"]
+        if password is "":
+            password=getpass.getpass()
+        else:
+            print "using the global username and password ..."
+        print "using the Jira host : ",jira_host
+        print ""
+        jql=raw_input('Enter your jql query [summary~\"Al-Radaideh\"]\n')
+        if jql is "":
+            jql="summary~\"Al-Radaideh\"";
+        
+        print "wait until finish pulling the data .."
+        res = requests.get("".join([jira_host,'rest/api/2/search?jql=',jql]), auth=HTTPBasicAuth(username,password))
+        #print(res)
+        jsn = json.loads(res.text)
 def select(num):
 	global SELECTED
 	SELECTED=num
