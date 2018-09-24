@@ -53,7 +53,7 @@ assignee = None
 branches = None
 for opt, arg in opts:
     if opt in ("-h", "--help"):
-        print "JiraAssign.py -c|--component -a|--assignee -b|--branches (comma separated)" \
+        print "python write_jira.py -c|--component -a|--assignee -b|--branches (comma separated)" \
               " -f| attatchment"
         sys.exit(1)
     elif opt in ("-c", "--component"):

@@ -16,3 +16,7 @@ to run the script for pulling the Data use this
 to write a new issue, check this
 
 	python write_jira.py -h
+
+check for specific JQL, returns 1 if there is one or more matches, for usage check this
+
+	python chk_issue.py -h
