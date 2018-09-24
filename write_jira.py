@@ -7,9 +7,8 @@ from os import environ
 import getpass
 import getopt
 import sys
-
-username=""
-password=""
+username="opsbot"
+password="bugz111a"
 jira_host="https://jira.atypon.com/"
 
 def init():

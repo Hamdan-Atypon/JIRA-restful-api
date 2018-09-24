@@ -43,7 +43,7 @@ def init():
         #print "using the Jira host : ",jira_host
         #print ""
         #jql=raw_input('Enter your jql query [summary~\"Al-Radaideh\"]\n')
-        jql=' text ~ "Broken Unit Test : example.java" and status = Open '
+        #jql=' text ~ "Broken Unit Test : example.java" and status = Open '
         #if jql is "":
         #    jql="summary~\"Al-Radaideh\"";
         
@@ -112,7 +112,7 @@ if jsn["total"] > 0:
     print 1
 else:
     print 0
-if debug == "1":
+if (debug == "1") and ( jsn["total"] > 0):
     print_issues()
     print_issue()
 
