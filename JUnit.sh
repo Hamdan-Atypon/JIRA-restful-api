@@ -1,27 +1,28 @@
 #!/bin/bash
+cd /tmp
+
 
 while read line; do
   echo "$line"
-  var=`python ./chk_issue.py -j ' text ~ "Broken Unit Test : '$line'" and status = Open '`
+  com=${line##*.}
+  var=`python chk_issue.py -j ' text ~ "Broken Unit Test : '$com'" and status = Open '`
   if [ $var -gt 0 ]
   then
 	echo "issue is already opened"  
   else
 	echo "openning new issue .."
-	file=`find /home/hradaideh/JIRA-restful-api | grep ${line::-4}`
-	dest=`grep '@report_to =' $file |  grep -o '[^ ]*@atypon.*' | awk -F"@" '{print $1}'`
+	tmp=`locate $com | grep HEAD  | grep '\.java'`
+	dest=`grep '@report_to =' $tmp |  grep -o '[^ ]*@atypon.*' | awk -F"@" '{print $1}'`
 	if [ -z $dest ]
 	then
 		echo "reporting to ops backlog"
-		exe=`python write_jira.py -c $line -a ops   -b 1820 -f /home/hradaideh/JIRA-restful-api/$line`
-		echo $exe
+		dest="hradaideh"
 	else
 		echo "reporting to "$dest
-                exe=`python write_jira.py -c $line -a $dest -b 1820 -f /home/hradaideh/JIRA-restful-api/$line`
-		echo $exe
-
 	fi
-
+	file=`find test_results | grep $com`
+        python write_jira.py -c $com -a $dest -b 1820 -f $file
   fi
   echo
-done < file
+done < source_list
+rm -rf .tmp source_list file test_results/

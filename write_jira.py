@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python
 
 from jira import JIRA
 import webbrowser
@@ -103,13 +103,12 @@ issue_dict = {
     'priority': { "name" : priority }
 }
 
-print(json.dumps(issue_dict, indent=4))
+#print(json.dumps(issue_dict, indent=4))
 print "please wait while creating the issue and uploading the file .."
 issue = jira.create_issue(fields=issue_dict)
-attachment_name="example.java"
 
 if attachment_name is not None:
-    with open("/home/hradaideh/" + attachment_name, 'rb') as the_attachment:
+    with open(attachment_name, 'rb') as the_attachment:
         jira.add_attachment(issue, the_attachment, attachment_name)
 print ""
 print "issue created with ID: ",issue
