@@ -21,8 +21,8 @@ while read line; do
 		echo "reporting to "$dest
 	fi
 	file=`find test_results | grep $com`
-        python write_jira.py -c $com -a $dest -b 1820 -f $file
+        python write_jira.py -c $com -a $dest -b $BRANCH -f $file
   fi
   echo
-done < source_list
-rm -rf .tmp source_list file test_results/
+done < source_list_$BRANCH
+rm -rf .tmp_$BRANCH source_list_$BRANCH file_$BRANCH test_results_$BRANCH/

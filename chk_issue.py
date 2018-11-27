@@ -39,23 +39,11 @@ def init():
             password=environ["JIRA_PW"]
         if password is "":
             password=getpass.getpass()
-        #else:
-        #    print "using the global username and password ..."
-        #print "using the Jira host : ",jira_host
-        #print ""
-        #jql=raw_input('Enter your jql query [summary~\"Al-Radaideh\"]\n')
-        #jql=' text ~ "Broken Unit Test : example.java" and status = Open '
-        #if jql is "":
-        #    jql="summary~\"Al-Radaideh\"";
-        
-        #print "wait until finish pulling the data .."
         res = requests.get("".join([jira_host,'rest/api/2/search?jql=',jql]), auth=HTTPBasicAuth(username,password))
-        #print(res)
         jsn = json.loads(res.text)
 def select(num):
 	global SELECTED
 	SELECTED=num
-	#print(SELECTED)
 def show(var):
 	if SELECTED == -1:
 	  print("please select a issue first")
@@ -64,7 +52,6 @@ def show(var):
 	print(json.dumps(x, indent=2))
 def print_issues():
 	global SELECTED
-	#print(SELECTED)
 	global jsn
 	print("Num	Summary")
 	for x in range(0, jsn["total"]):
@@ -105,10 +92,7 @@ if jql == "":
     exit()
 
 init()
-#os.system('clear')
-#print_issues()
 select(0)
-#print_issue()
 if jsn["total"] > 0:
     print 1
 else:
@@ -116,6 +100,3 @@ else:
 if (debug == "1") and ( jsn["total"] > 0):
     print_issues()
     print_issue()
-
-#print ""
-#embed()
